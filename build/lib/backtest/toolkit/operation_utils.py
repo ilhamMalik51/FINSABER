@@ -5,7 +5,6 @@ import datasets as ds
 import pandas as pd
 from tqdm import tqdm
 from dotenv import load_dotenv
-import pandas_datareader.data as web
 import pickle
 load_dotenv()
 HF_ACCESS_TOKEN = os.getenv("HF_ACCESS_TOKEN")
@@ -185,48 +184,6 @@ def add_tickers_data(cerebro: bt.Cerebro, pivot_df: pd.DataFrame):
             cerebro.adddata(data, name=symbol)
 
     return datas
-
-def process_for_ff(df: pd.DataFrame):
-    """
-    Process the DataFrame to include the Fama-French Five-Factor data
-    :param df: The DataFrame containing the price of the specified tickers within the specified date range
-    :return: The DataFrame with the Fama-French Five-Factor data included
-    """
-    # set date as the index if it is not
-    if "date" in df.columns:
-        df.set_index("date", inplace=True)
-        # parse the date
-        df.index = pd.to_datetime(df.index)
-
-    # Calculate daily returns based on 'Adj Close' prices
-    df['return'] = df['adj_close'].pct_change()
-
-    # Get the start and end dates
-    start_date = df.index.min()
-    end_date = df.index.max()
-
-    # Convert to datetime if necessary
-    start_date = pd.to_datetime(start_date)
-    end_date = pd.to_datetime(end_date)
-
-    # Fetch the Five-Factor data
-    ff_factors = web.DataReader('F-F_Research_Data_5_Factors_2x3_daily', 'famafrench', start=start_date, end=end_date)[
-        0]
-
-    # Adjust the index to datetime format and align with your data
-    ff_factors.index = pd.to_datetime(ff_factors.index)
-
-    # Convert the percentage returns to decimal format
-    ff_factors = ff_factors / 100
-
-    # Merge the Fama-French factors into your DataFrame
-    df = df.merge(ff_factors[['Mkt-RF', 'SMB', 'HML', 'RMW', 'CMA']], left_index=True, right_index=True, how='left')
-
-    # Handle any missing values (if any)
-    df[['Mkt-RF', 'SMB', 'HML', 'RMW', 'CMA']] = df[['Mkt-RF', 'SMB', 'HML', 'RMW', 'CMA']].fillna(method='ffill')
-
-    return df
-
 
 def get_indices_data():
     dataset = ds.load_dataset(

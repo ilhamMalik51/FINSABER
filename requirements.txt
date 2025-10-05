@@ -23,12 +23,12 @@ lxml==5.3.0
 matplotlib==3.10.3
 mmengine==0.10.7
 model_wrapper==1.1.2
-numpy==2.3.0
+numpy==2.2.6
 openai==1.88.0
 optuna==4.4.0
 pandas==2.3.0
 pandas_datareader==0.10.0
-pandas_market_calendars==5.1.0
+pandas_market_calendars==4.6.1
 pandas_ta==0.3.14b0
 polars==1.31.0
 polygon==1.2.6
