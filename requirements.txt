@@ -19,8 +19,6 @@ ipdb==0.13.13
 joblib==1.4.2
 jqdatasdk==1.9.7
 json5==0.10.0
-langchain_community==0.3.25
-langchain_together==0.3.0
 lxml==5.3.0
 matplotlib==3.10.3
 mmengine==0.10.7
@@ -65,10 +63,7 @@ ta==0.11.0
 TA_Lib==0.4.32
 tabulate==0.9.0
 tenacity==8.3.0
-tiktoken==0.5.2
 toml==0.10.2
-torch==2.4.1
-torch_geometric==2.6.1
 tqdm==4.66.5
 transformers==4.45.1
 tushare==1.4.13
